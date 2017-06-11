@@ -9,20 +9,24 @@ import { getSetupData } from './actions/grid'
 require('./vendor/chosen/chosen.jquery.js')
 require('./vendor/chosen/handsontable-chosen-editor.js')
 
-//call page setup datas
-store.dispatch(getSetupData());
+
 
 // Load SCSS
-import '../scss/app.scss';
+import '../scss/app.scss'
 
-render(
+
+
+
+
+
+window.TableManager = (element, options)=>{
+  //call page setup datas
+  store.dispatch(getSetupData(options));
+  return   render(
     <Provider store={store}>
-        <App/>
+      <App/>
     </Provider>,
-    document.getElementById('solar-tp')
-);
-
-
-
-
+    document.getElementById(element)
+  );
+}
 

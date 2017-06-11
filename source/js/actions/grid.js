@@ -20,8 +20,8 @@ import {setUpForm, setFormData} from './form'
 //        });
 //    }
 //}
-export function getSetupData() {
-    const setup = window.setup;
+export function getSetupData(setup) {
+
 
     return dispatch => {
 
