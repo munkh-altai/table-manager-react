@@ -1,0 +1,79 @@
+.saved-success{
+  color: green;
+  font-weight: bold;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition:all 0.4s ease-in-out;
+  -moz-transition:all 0.4s ease-in-out;
+  -o-transition:all 0.4s ease-in-out;
+  -ms-transition:all 0.4s ease-in-out;
+  transition:all 0.4s ease-in-out;
+}
+.saved-failed{
+  color: red;
+  font-weight: bold;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition:all 0.4s ease-in-out;
+  -moz-transition:all 0.4s ease-in-out;
+  -o-transition:all 0.4s ease-in-out;
+  -ms-transition:all 0.4s ease-in-out;
+  transition:all 0.4s ease-in-out;
+}
+.show-info{
+  visibility: visible;
+  opacity: 1;
+  top:15px;
+}
+.dateRange{
+  .form-inline .form-control{
+    max-width: 170px;
+  }
+  .form-group{
+    vertical-align: top !important;
+  }
+
+}
+.parentSelect{
+  .Select-control{
+    height: 34px;
+    .Select-input{
+      height: 32px;
+    }
+  }
+}
+.date-year-month{
+  display: inline-block;
+  padding: 0 5px;
+  min-width: 200px;
+  vertical-align: top;
+  .form-group {
+    line-height: 14px;
+    .control-label {
+      height: 14px;
+      margin: 3px 5px;
+    }
+  }
+  .year-search, .month-search{
+
+      vertical-align: top;
+      width: 100px;
+      display: inline-block;
+    .Select {
+      position: relative;
+      z-index: 120;
+    }
+    .Select-control{
+      height: 34px;
+      .Select-input{
+        height: 32px;
+      }
+    }
+  }
+}
+.handsontable .htCheckboxRendererLabel {
+ margin-bottom: 0 !important;
+}
+.handsontable .htCheckboxRendererInput {
+ margin: 0 !important;
+}

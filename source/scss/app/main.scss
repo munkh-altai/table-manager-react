@@ -1,0 +1,123 @@
+#solar-tp{
+
+  min-height: -moz-calc(100vh - 2px);
+  min-height: -webkit-calc(100vh - 2px);
+  min-height: calc(100vh - 2px);
+  position: relative;
+  background: transparent!important;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: block;
+
+}
+
+
+.solar-form {
+  margin: 2px 15px;
+  //width: 600px;
+  .form-group{
+    margin-bottom: 3px;
+    min-height: 64px;
+  }
+}
+
+.solar-grid {
+
+  #gridBodyBoth{
+    height: -moz-calc(100vh - 187px);
+    height: -webkit-calc(100vh - 187px);
+    height: calc(100vh - 187px);
+    max-height: 100%;
+    //background: green;
+  }
+
+  #gridBody{
+    height: -moz-calc(100vh - 123px);
+    height: -webkit-calc(100vh - 123px);
+    height: calc(100vh - 123px);
+    width:100%;
+    overflow-y: scroll;
+    border: none;
+
+    position: relative;
+    //background: green;
+  }
+  #tp_grid{
+
+    width:100%;
+    overflow-y: hidden;
+    border: none;
+
+    position: relative;
+    //background: green;
+    font-size: 10pt;
+    color: #000;
+    *{
+      color: #333;
+    }
+  }
+  #tp_grid.with_advenced{
+    height: -moz-calc(100vh - 152px);
+    height: -webkit-calc(100vh - 152px);
+    height: calc(100vh - 152px);
+  }
+
+}
+
+.form-control, output {
+  color: #000;
+}
+.pull-right .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+
+
+.add-btn{
+  border-radius: 0;
+  padding: 8px 12px;
+}
+.btn{
+  border-radius: 0;
+}
+.add-edit-form{
+
+  max-width:100%;
+}
+.none-translate-form{
+  background: #fff;
+  padding: 10px;
+}
+
+
+.field_set{
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 5px 0;
+  legend{
+    width: auto!important;
+    font-size: 14px;
+    padding: 0 8px;
+    font-weight: bold;
+  }
+}
+
+#tp_column_option{
+  list-style: none;
+}
+#multi_items{
+  background: #fff;
+  margin-bottom: 10px;
+}
+.grid-thumb{
+  height: 44px;
+  padding: 2px;
+}
+.form-sending{
+  *{
+    pointer-events: none!important;
+    opacity: 0.8!important;
+  }
+}
