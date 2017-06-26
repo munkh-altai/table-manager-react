@@ -6,7 +6,7 @@ import DragMap from './elements/DragMap';
 import SingleFileUploader from './elements/SingleFileUploader';
 import MultiFileUploader from './elements/MultiFileUploader';
 // import Select from 'react-select';
-
+import {Checkbox, DatePicker, ColorPicker} from 'element-react';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
 
@@ -56,8 +56,7 @@ export default class Form extends Component {
 
     dateChange(locale_index, dIndex, value) {
 
-        let newValue = getDate(value);
-
+        let newValue = value ? getDate(value): undefined;
 
         this.manualeChangeHandler(locale_index, dIndex, newValue);
     }
@@ -120,6 +119,23 @@ export default class Form extends Component {
             this.props.changeHandler(dataIndex, value);
         else
             this.props.translateChangeHandler(locale_index, dataIndex, value);
+
+    }
+    manualeChangeHandlerCheckBox(locale_index, dIndex, value) {
+
+
+        let dataIndexs  =  dIndex.split('-');
+
+        let dataIndex = [];
+
+        dataIndexs.map((key)=>{
+            dataIndex.push(key*1);
+        });
+
+        if(locale_index === false)
+            this.props.changeHandler(dataIndex, value ? 1 : 0);
+        else
+            this.props.translateChangeHandler(locale_index, dataIndex, value ? 1 : 0);
 
     }
 
@@ -233,6 +249,22 @@ export default class Form extends Component {
                     errorText={field.get('error')}
 
                 />
+                break;
+            case "--color":
+                return <div key={keyIndex} className={`form-group ${fieldClassName} ${fieldClass}` }  id={`solar-form-group-${index}`}>
+    <label className={`control-label `}>{title}</label>
+
+      <ColorPicker
+
+        value={mainValue}
+
+        showAlpha={true}
+        onChange={this.manualeChangeHandler.bind(this, locale_index, `${index}`)}
+      />
+      <span className="help-block">
+                                    {field.get('error')}
+                                </span>
+    </div>
                 break;
             case "--password":
                 return <Input
@@ -554,23 +586,25 @@ export default class Form extends Component {
                 break;
 
             case "--date":
+let dateValue = mainValue !== null && mainValue != '' && mainValue != undefined ? new Date(mainValue) : undefined;
 
-                return <div key={keyIndex} className={`form-group ${fieldClassName}`}  id={`solar-form-group-${index}`}>
+                return <div key={keyIndex} className={`form-group ${fieldClassName} ${fieldClass}` }  id={`solar-form-group-${index}`}>
                     <label className={`control-label `}>{title}</label>
 
-                    <Datetime
-                        value={mainValue ? mainValue : undefined}
-                        defaultValue={mainValue ? mainValue : undefined}
-                        viewMode={`days`}
-                        dateFormat={`YYYY-MM-DD`}
-                        timeFormat={false}
-                        onChange={this.dateChange.bind(this, locale_index, `${index}`)}
-                        closeOnSelect={true}
-                        inputProps={{placeholder:title, disabled:thisDisabled}}
+                  <DatePicker
 
-                    />
+                    value={dateValue}
+
+                    align="right"
+                    placeholder={title}
+                    dateFormat={`YYYY-MM-DD`}
+                    onChange={date=>{
+
+                      this.dateChange(locale_index, `${index}`, date)
+                    }}
+                  />
                                 <span className="help-block">
-                                    {field.error}
+                                    {field.get('error')}
                                 </span>
                 </div>
                 break;
@@ -593,7 +627,7 @@ export default class Form extends Component {
                     />
                                 <span className="help-block">
 
-                                    {field.error}
+                                    {field.get('error')}
                                 </span>
                 </div>
                 break;
@@ -719,30 +753,25 @@ export default class Form extends Component {
                 break;
             case "--checkbox":
                 return <div key={keyIndex}  className={`form-group ${fieldClass} ${fieldClassName}`}  id={`solar-form-group-${index}`}>
-                    <div className="checkbox">
+
+
+                  <div className="checkbox">
                         {formType == 'inline' ?
-                            <input type="checkbox"
-                                   disabled={thisDisabled}
-                                   name={name}
-                                   checked={field.get('value') == 1 ? true: false  }
-                                   value={1}
+                          <Checkbox
+                            disabled={thisDisabled}
+                            name={name}
+                            checked={field.get('value') == 1 ? true: false  }
 
-                                   data-index={index}
-                                   onChange={this.changeHandler.bind(this, locale_index)}
-                            />
+                            onChange={this.manualeChangeHandlerCheckBox.bind(this, locale_index, `${index}`)}
+                          > </Checkbox>
                             :
-                            <label>
-                                <input type="checkbox"
-                                       disabled={thisDisabled}
-                                       name={name}
-                                       checked={field.get('value') == 1 ? true: false  }
-                                       value={1}
+                          <Checkbox
+                            disabled={thisDisabled}
+                            name={name}
+                            checked={field.get('value') == 1 ? true: false  }
 
-                                       data-index={index}
-                                       onChange={this.changeHandler.bind(this, locale_index)}
-                                />
-                                {title}
-                            </label>
+                            onChange={this.manualeChangeHandlerCheckBox.bind(this, locale_index, `${index}`)}
+                          > {title}</Checkbox>
                         }
                         < span className="help-block">
                         {field.error}

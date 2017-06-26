@@ -261,11 +261,12 @@ class AddEditContainer extends Component {
                 }
                 let error = null;
                 if(formColumn.get('type') == '--password'){
-                    error = (validation(formColumn.get('value'), 'password|required'));
+                    error = validation(formColumn.get('value'), 'password|required');
                 } else if(formColumn.get('type') == '--password-confirm'){
-                    error = (validation(formColumn.get('value'), 'password', this.getValueByColumn('password')))
+                    error = validation(formColumn.get('value'), 'password', this.getValueByColumn('password'))
                 } else {
-                    error = (validation(formColumn.get('value'), formColumn.get('validate')));
+                    error = validation(formColumn.get('value'), formColumn.get('validate'));
+
                 }
 
 

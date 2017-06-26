@@ -1,23 +1,36 @@
 import React, { Component }  from 'react';
 import PropTypes from 'prop-types';
-import Select from 'react-select/lib/Select';
-import Async from 'react-select/lib/Async';
+import {Select} from 'element-react';
 import {postResuest} from '../../../api/ajaxRequest'
 var timer;
 export default class ComboBox extends Component {
+  constructor(props) {
+    super(props);
 
+    this.state = {
+      loading:false,
+      options: [],
+      value: undefined,
+    };
+  }
     comboChange(value){
 
-        this.props.changeHandler(value)
+    let value_ = '';
+      if(this.props.multi){
+        value_ = value.join();
+      } else {
+        value_ = value;
+      }
+
+        this.props.changeHandler(value_)
     }
     getOptions(input, callback){
-
         clearTimeout(timer);
        if(input){
 
 
            timer = setTimeout(()=>{
-                this.setState({wainting: null});
+                this.setState({loading: true});
                 postResuest('combo-sync', {input: input, column: this.props.column}).then((response)=>{
                     let options = [];
 
@@ -45,12 +58,12 @@ export default class ComboBox extends Component {
                         }
                     }
 
+                  this.setState({loading: true, options_:options});
 
-                    callback(null, {options:options});
                 });
             }, 500);
        } else {
-           callback(null, {options:[]});
+         this.setState({loading: true, options:[]});
         }
 
 
@@ -72,38 +85,52 @@ export default class ComboBox extends Component {
 
     }
 
+  componentWillMount(){
+    let options = [];
+    if(this.props.formData.get(this.props.column))
+
+      this.props.formData.getIn([this.props.column, 'data', 'data']).map((data, sindex)=>{
+
+
+
+        if (this.props.fieldOptions.get('textField') instanceof Object) {
+
+          let arrayLabel = "";
+
+          for (var i = 0; i < this.props.fieldOptions.get('textField').size; ++i) {
+            if(i == 0)
+              arrayLabel = this.getTranlate(data.get(this.props.fieldOptions.getIn(['textField', i])))
+            else
+              arrayLabel = arrayLabel +", "+ this.getTranlate(data.get(this.props.fieldOptions.getIn(['textField', i])))
+          }
+
+          options.push({value: data.get(this.props.fieldOptions.get('valueField'))+'', label: arrayLabel})
+        }
+        else {
+
+          options.push({value: data.get(this.props.fieldOptions.get('valueField'))+'', label: this.getTranlate(data.get(this.props.fieldOptions.get('textField')))})
+        }
+      })
+
+
+    let value_ = '';
+    if(this.props.multi){
+      value_ = this.props.value.split(',');
+    } else {
+      value_ = this.props.value;
+    }
+
+
+    this.setState({options: options});
+    this.setState({value: value_});
+  }
+  // componentDidMount(){
+  //   Select.resetInputHeight();
+  // }
+
+
     render() {
-        const { fieldClass, formData, column, changeHandler, fieldOptions,loadOptions, value, fieldClassName, errorText, formType, placeholder, name, disabled, multi, dataIndex } = this.props;
-
-        let options = [];
-
-
-
-
-        if(formData.get(column))
-
-            formData.getIn([column, 'data', 'data']).map((data, sindex)=>{
-
-
-
-                if (fieldOptions.get('textField') instanceof Object) {
-
-                    let arrayLabel = "";
-
-                    for (var i = 0; i < fieldOptions.get('textField').size; ++i) {
-                        if(i == 0)
-                            arrayLabel = this.getTranlate(data.get(fieldOptions.getIn(['textField', i])))
-                        else
-                            arrayLabel = arrayLabel +", "+ this.getTranlate(data.get(fieldOptions.getIn(['textField', i])))
-                    }
-
-                    options.push({value: data.get(fieldOptions.get('valueField'))+'', label: arrayLabel})
-                }
-                else {
-
-                    options.push({value: data.get(fieldOptions.get('valueField'))+'', label: this.getTranlate(data.get(fieldOptions.get('textField')))})
-                }
-        })
+        const { fieldClass, formData, column, changeHandler,loadOptions, fieldClassName, errorText, formType, placeholder, name, disabled, multi, dataIndex } = this.props;
 
 
 
@@ -113,28 +140,40 @@ export default class ComboBox extends Component {
 
                 {formData.get(column) ?
                     loadOptions ?
-                        <Async
-                            disabled={disabled}
-                            name={name}
-                            value={value}
-                            onChange={this.comboChange.bind(this)}
-                            placeholder={`Сонгох`}
-                            multi={multi}
-                            simpleValue
-                            loadOptions={this.getOptions.bind(this)}
 
-                        />:
-                        <Select
-                            disabled={disabled}
-                            name={name}
-                            value={value}
-                            options={options}
-                            onChange={this.comboChange.bind(this)}
-                            placeholder={`Сонгох`}
-                            multi={multi}
-                            simpleValue
-
-                        />
+                      <Select
+                        value={this.state.value}
+                        filterable={true}
+                        disabled={disabled}
+                        id={`c-${dataIndex}`}
+                        name={name}
+                        placeholder={`Сонгох`}
+                        onChange={this.comboChange.bind(this)}
+                        multiple={multi}
+                        remote={true} remoteMethod={this.getOptions.bind(this)} loading={this.state.loading}
+                      >
+                        {
+                          this.state.options.map(el =>
+                             <Select.Option key={el.value} label={el.label} value={el.value} />
+                          )
+                        }
+                      </Select>:
+                      <Select
+                        value={this.state.value}
+                        filterable={true}
+                        disabled={disabled}
+                        id={`c-${dataIndex}`}
+                        name={name}
+                        placeholder={`Сонгох`}
+                        onChange={this.comboChange.bind(this)}
+                        multiple={multi}
+                      >
+                        {
+                          this.state.options.map(el =>
+                             <Select.Option key={el.value} label={el.label} value={el.value} />
+                          )
+                        }
+                      </Select>
                     :
                     null}
                     <span className="help-block">

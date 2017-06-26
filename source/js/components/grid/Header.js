@@ -1,4 +1,5 @@
 import React, { Component }  from 'react';
+import { Input } from 'element-react';
 import {
   Link
 } from 'react-router-dom'
@@ -101,17 +102,13 @@ export default class Header extends Component {
                     role="search">
                     <div className="form-group l-h m-a-0">
                         <div className="input-group input-group-sm">
-                            <input type="text" className="form-control p-x b-a " ref="searchWord"
-                                   placeholder="Хайх"/>
+                          <form >
+                            <Input placeholder="Хайх" id="search" size="small" icon="search"/>
+                            <input type="submit" className="hidden" onClick={this.props.handlerSearch} />
+                          </form>
 
-                            <span className="input-group-btn">
-                                <button type="button" className="btn white b-a no-b-l no-shadow"
-                                        onClick={this.props.handlerSearch}>
 
-                                    <i className="material-icons">&#xE8B6;</i>
 
-                                </button>
-                            </span>
                         </div>
                     </div>
                 </div>

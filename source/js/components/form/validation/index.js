@@ -53,7 +53,7 @@ export function regex_get(custom_hex, value) {
 }
 
 export function required(value) {
-    if (isEmpty(value)) {
+    if (isEmpty(value) || value == null || value == '') {
         return 'Заавал бөглөх';
     }
 }

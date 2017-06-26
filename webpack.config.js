@@ -52,6 +52,8 @@ const plugins = [
       context: sourcePath,
     },
   }),
+  new webpack.NormalModuleReplacementPlugin(/element-react[\/\\]src[\/\\]locale[\/\\]lang[\/\\]zh-CN/, 'element-react/src/locale/lang/en')
+
 ];
 
 // Common rules
@@ -62,6 +64,10 @@ const rules = [
     use: [
       'babel-loader',
     ],
+  },
+  {
+    test: /\.css$/,
+    loaders: ['style-loader', 'css-loader']
   },
   {
     test: /\.svg$/,
@@ -82,6 +88,14 @@ const rules = [
     test: /\.(png|gif|jpg|svg)$/,
     include: imgPath,
     use: 'url-loader?limit=20480&name=assets/img/[name]-[hash].[ext]',
+  },
+  {
+    test: /\.(woff2?|ttf|eot|svg|otf)$/,
+    loader: 'file-loader',
+    options: {
+      name: 'fonts/[name].[ext]?[hash]',
+      publicPath: '/'
+    }
   },
 ];
 
@@ -114,7 +128,7 @@ if (isProduction) {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract({
         fallback: 'style-loader',
-        use: 'css-loader!postcss-loader!sass-loader'
+        use: 'css!css-loader!postcss-loader!sass-loader'
       }),
     }
   );

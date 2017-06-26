@@ -125,8 +125,11 @@ class GridContainer extends Component {
         );
     }
 
-    handleSearch() {
-        let sword = this.refs.search.refs.searchWord.value
+    handleSearch(event) {
+      event.preventDefault();
+
+        let sword = document.getElementById("search").value;
+
         this.props.actions.setSearch(sword)
         this.callPageDatas(1, this.props.pageLimit, sword)
     }
@@ -415,7 +418,7 @@ class GridContainer extends Component {
                         type="list"
                         formType={formType}
                         addInlineForm={this.addInlineForm.bind(this)}
-                        ref="search"
+
                         handlerSearch={this.handleSearch.bind(this)}
                         showModal={this.showModal.bind(this)}
                         exportEXCEL={this.exportEXCEL.bind(this)}
